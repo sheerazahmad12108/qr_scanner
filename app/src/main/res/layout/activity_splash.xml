@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.qrcode.activities.SplashActivity">
+
+    <LinearLayout
+        android:id="@+id/llMainSplash"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animation_view"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/splash_sample_new" />
+
+        <!--    <ImageView-->
+        <!--        android:layout_width="wrap_content"-->
+        <!--        android:layout_height="wrap_content"-->
+        <!--        android:contentDescription="@string/splash_title"-->
+        <!--        android:src="@drawable/splash_screen_logo" />-->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:fontFamily="@font/redx_pro"
+            android:text="@string/splash_title"
+            android:textAlignment="center"
+            android:textColor="@color/text_color"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="14dp"
+            android:fontFamily="@font/redx_pro"
+            android:text="@string/splash_description"
+            android:textAlignment="center"
+            android:textColor="@color/text_color"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="300dp"
+        android:layout_height="20dp"
+        android:layout_below="@+id/llMainSplash"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/progress_bar_background"
+        android:indeterminate="false"
+        android:max="100"
+        android:padding="5dp"
+        android:progress="1"
+        android:progressDrawable="@drawable/curved_progress_bar" />
+
+    <TextView
+        android:id="@+id/tvActionAd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/progressBar"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/redx_pro"
+        android:includeFontPadding="false"
+        android:text="@string/mayContains"
+        android:textAlignment="center"
+        android:textColor="@color/text_color"
+        android:textSize="12sp" />
+
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/bannerAd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+        android:visibility="visible"
+        app:adSize="SMART_BANNER"
+        app:adUnitId="ca-app-pub-3940256099942544/9214589741" />
+
+</RelativeLayout>

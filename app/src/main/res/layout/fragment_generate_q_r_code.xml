@@ -1,0 +1,1724 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:paddingVertical="16dp"
+    tools:context="com.example.qrcode.fragments.GenerateQRCodeFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp">
+
+        <ImageView
+            android:id="@+id/ivBack"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:contentDescription="@string/result"
+            android:src="@drawable/icon_back"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/redx_pro"
+            android:text="@string/result"
+            android:textAlignment="center"
+            android:textColor="@color/text_color"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/deleteIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:contentDescription="@string/history"
+            android:src="@drawable/delete_icon"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/tvTitle"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.github.ybq.android.spinkit.SpinKitView
+        android:id="@+id/progressBar"
+        style="@style/SpinKitView.FadingCircle"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        app:SpinKit_Color="@color/b4" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/constraintHeader"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/llQrCode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/mcvQRCode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="12dp"
+                android:orientation="vertical"
+                app:cardCornerRadius="12dp"
+                app:strokeColor="@color/b4"
+                app:strokeWidth="0.5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/ivQRCode"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="12dp"
+                        android:contentDescription="@string/result"
+                        android:src="@drawable/qr_code_sample" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@color/b4" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_marginVertical="8dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/ivShareIcon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:contentDescription="@string/share_app"
+                            android:src="@drawable/share_icon" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/tvLink"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:ellipsize="end"
+                                android:fontFamily="@font/redx_pro"
+                                android:includeFontPadding="false"
+                                android:singleLine="true"
+                                android:textColor="@color/text_color"
+                                android:textSize="14sp" />
+
+                            <TextView
+                                android:id="@+id/tvDate"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:fontFamily="@font/redx_pro"
+                                android:includeFontPadding="false"
+                                android:textColor="@color/b2"
+                                android:textSize="12sp" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/llGallery"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="12dp"
+                        android:baselineAligned="false"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:id="@+id/llDownload"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical"
+                            tools:ignore="UseCompoundDrawables,UselessParent">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:contentDescription="@string/copy"
+                                android:src="@drawable/download_icon" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                android:fontFamily="@font/redx_pro"
+                                android:includeFontPadding="false"
+                                android:text="@string/download"
+                                android:textColor="@color/text_color"
+                                android:textSize="14sp"
+                                tools:ignore="SmallSp" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/llFavourite"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical"
+                            tools:ignore="UseCompoundDrawables,UselessParent">
+
+                            <ImageView
+                                android:id="@+id/ivFavourite"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:contentDescription="@string/favourite"
+                                android:src="@drawable/icon_favourite_unselect" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                android:fontFamily="@font/redx_pro"
+                                android:includeFontPadding="false"
+                                android:text="@string/favourite"
+                                android:textColor="@color/text_color"
+                                android:textSize="14sp"
+                                tools:ignore="SmallSp" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/llShare"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical"
+                            tools:ignore="UseCompoundDrawables,UselessParent">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:contentDescription="@string/share"
+                                android:src="@drawable/icon_share" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                android:fontFamily="@font/redx_pro"
+                                android:includeFontPadding="false"
+                                android:text="@string/share"
+                                android:textColor="@color/text_color"
+                                android:textSize="14sp"
+                                tools:ignore="SmallSp" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llWebsite"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/redx_pro"
+                android:includeFontPadding="false"
+                android:text="@string/websiteUrl"
+                android:textAlignment="viewStart"
+                android:textColor="@color/text_color"
+                android:textSize="14sp" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="vertical"
+                app:cardCornerRadius="12dp"
+                app:strokeColor="@color/b4"
+                app:strokeWidth="1dp">
+
+                <EditText
+                    android:id="@+id/edtUrl"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@id/ivSearchIcon"
+                    android:autofillHints=""
+                    android:background="@null"
+                    android:hint="@null"
+                    android:includeFontPadding="false"
+                    android:inputType="textUri"
+                    android:maxEms="3"
+                    android:paddingHorizontal="6dp"
+                    android:paddingVertical="12dp"
+                    android:textColor="@color/text_color"
+                    android:textColorHint="@color/b2"
+                    android:textCursorDrawable="@drawable/edt_cursor" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/mcvHttps"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:cardCornerRadius="12dp"
+                    app:strokeColor="@color/b4"
+                    app:strokeWidth="1dp">
+
+                    <TextView
+                        android:id="@+id/tvHttps"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:fontFamily="@font/redx_pro"
+                        android:paddingHorizontal="12dp"
+                        android:text="@string/https"
+                        android:textAlignment="center"
+                        android:textColor="@color/b2"
+                        android:textSize="12sp" />
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/mcvWww"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:orientation="vertical"
+                    app:cardCornerRadius="12dp"
+                    app:strokeColor="@color/b4"
+                    app:strokeWidth="1dp">
+
+                    <TextView
+                        android:id="@+id/tvWww"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:fontFamily="@font/redx_pro"
+                        android:paddingHorizontal="12dp"
+                        android:text="@string/www"
+                        android:textAlignment="center"
+                        android:textColor="@color/b2"
+                        android:textSize="12sp" />
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/mcvCom"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:orientation="vertical"
+                    app:cardCornerRadius="12dp"
+                    app:strokeColor="@color/b4"
+                    app:strokeWidth="1dp">
+
+                    <TextView
+                        android:id="@+id/tvCom"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:fontFamily="@font/redx_pro"
+                        android:paddingHorizontal="12dp"
+                        android:text="@string/com"
+                        android:textAlignment="center"
+                        android:textColor="@color/b2"
+                        android:textSize="12sp" />
+
+                </com.google.android.material.card.MaterialCardView>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llClipboard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tvClipboard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/redx_pro"
+                android:includeFontPadding="false"
+                android:text="@string/clipboard"
+                android:textAlignment="viewStart"
+                android:textColor="@color/text_color"
+                android:textSize="14sp" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="vertical"
+                app:cardCornerRadius="12dp"
+                app:strokeColor="@color/b4"
+                app:strokeWidth="1dp">
+
+                <EditText
+                    android:id="@+id/edtClipboard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/_6sdp"
+                    android:layout_marginVertical="@dimen/_6sdp"
+                    android:autofillHints=""
+                    android:background="@null"
+                    android:fontFamily="@font/outfit_regular"
+                    android:gravity="top"
+                    android:hint="@string/pleaseEnter"
+                    android:inputType="text|textMultiLine"
+                    android:lines="8"
+                    android:textColorHint="@color/clr97"
+                    android:textCursorDrawable="@drawable/edt_cursor"
+                    android:textSize="12sp" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llWifi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                app:cardCornerRadius="12dp"
+                app:strokeColor="@color/b4"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="3">
+
+                    <TextView
+                        android:id="@+id/tvWPA"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/btn_curve_small"
+                        android:fontFamily="@font/redx_pro"
+                        android:paddingVertical="12dp"
+                        android:text="@string/wpa"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/tvWep"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/redx_pro"
+                        android:paddingVertical="12dp"
+                        android:text="@string/wep"
+                        android:textAlignment="center"
+                        android:textColor="@color/clr97"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/tvNone"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/redx_pro"
+                        android:paddingVertical="12dp"
+                        android:text="@string/none"
+                        android:textAlignment="center"
+                        android:textColor="@color/clr97"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:fontFamily="@font/redx_pro"
+                android:includeFontPadding="false"
+                android:text="@string/networkName"
+                android:textColor="@color/text_color"
+                android:textSize="14sp" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                app:cardCornerRadius="12dp"
+                app:strokeColor="@color/b4"
+                app:strokeWidth="1dp">
+
+                <EditText
+                    android:id="@+id/edtNetworkName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@id/ivSearchIcon"
+                    android:autofillHints=""
+                    android:background="@null"
+                    android:includeFontPadding="false"
+                    android:inputType="text"
+                    android:maxEms="3"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="16dp"
+                    android:textColor="@color/text_color"
+                    android:textColorHint="@color/b2"
+                    android:textSize="14sp" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/redx_pro"
+                android:includeFontPadding="false"
+                android:text="@string/password"
+                android:textColor="@color/text_color"
+                android:textSize="14sp" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                app:cardCornerRadius="12dp"
+                app:strokeColor="@color/b4"
+                app:strokeWidth="1dp">
+
+                <EditText
+                    android:id="@+id/edtPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@id/ivSearchIcon"
+                    android:autofillHints=""
+                    android:background="@null"
+                    android:includeFontPadding="false"
+                    android:inputType="textPassword"
+                    android:maxEms="3"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="16dp"
+                    android:textColor="@color/text_color"
+                    android:textColorHint="@color/b2"
+                    android:textSize="14sp" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llUsernameUrl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                app:cardCornerRadius="12dp"
+                app:strokeColor="@color/b4"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <TextView
+                        android:id="@+id/tvFbUsername"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/btn_curve_small"
+                        android:fontFamily="@font/redx_pro"
+                        android:paddingVertical="12dp"
+                        android:text="@string/username"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/tvFacebookUrl"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/redx_pro"
+                        android:paddingVertical="12dp"
+                        android:text="@string/url"
+                        android:textAlignment="center"
+                        android:textColor="@color/clr97"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:id="@+id/tvIdName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:fontFamily="@font/redx_pro"
+                android:includeFontPadding="false"
+                android:text="@string/facebookId"
+                android:textColor="@color/text_color"
+                android:textSize="14sp" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                app:cardCornerRadius="12dp"
+                app:strokeColor="@color/b4"
+                app:strokeWidth="1dp">
+
+                <EditText
+                    android:id="@+id/edtFacebookId"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@id/ivSearchIcon"
+                    android:autofillHints=""
+                    android:background="@null"
+                    android:includeFontPadding="false"
+                    android:inputType="text"
+                    android:maxEms="3"
+                    android:paddingHorizontal="6dp"
+                    android:paddingVertical="16dp"
+                    android:textColor="@color/text_color"
+                    android:textColorHint="@color/b2"
+                    android:textCursorDrawable="@drawable/edt_cursor"
+                    android:textSize="14sp" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llWhatsapp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/redx_pro"
+                android:includeFontPadding="false"
+                android:text="@string/phoneNumber"
+                android:textAlignment="viewStart"
+                android:textColor="@color/text_color"
+                android:textSize="14sp" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="vertical"
+                app:cardCornerRadius="12dp"
+                app:strokeColor="@color/b4"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <com.hbb20.CountryCodePicker
+                        android:id="@+id/countryCode"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="@dimen/_4sdp"
+                        android:layout_marginStart="@dimen/_4sdp"
+                        app:ccp_arrowSize="@dimen/_1sdp"
+                        app:ccp_contentColor="@color/text_color"
+                        app:ccp_defaultNameCode="PK"
+                        app:ccp_showFlag="true"
+                        app:ccp_showNameCode="false"
+                        app:ccp_textSize="@dimen/_12ssp"
+                        app:ccp_useFlagEmoji="true" />
+
+                    <View
+                        android:layout_width="@dimen/_1sdp"
+                        android:layout_height="match_parent"
+                        android:layout_marginVertical="@dimen/_8sdp"
+                        android:background="#4B68FF" />
+
+                    <EditText
+                        android:id="@+id/edtPhoneNumber"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:autofillHints=""
+                        android:background="@null"
+                        android:hint="@null"
+                        android:includeFontPadding="false"
+                        android:inputType="number"
+                        android:maxLength="10"
+                        android:padding="@dimen/_8sdp"
+                        android:textColor="@color/text_color"
+                        android:textColorHint="@color/b2"
+                        android:textCursorDrawable="@drawable/edt_cursor"
+                        tools:ignore="TextFields" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llContact"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tvContactNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:fontFamily="@font/redx_pro"
+                android:includeFontPadding="false"
+                android:text="@string/number"
+                android:textColor="@color/text_color"
+                android:textSize="14sp" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                app:cardCornerRadius="12dp"
+                app:strokeColor="@color/b4"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <com.hbb20.CountryCodePicker
+                        android:id="@+id/ccContactNumber"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="@dimen/_4sdp"
+                        android:layout_marginStart="@dimen/_4sdp"
+                        app:ccp_arrowSize="@dimen/_1sdp"
+                        app:ccp_contentColor="@color/text_color"
+                        app:ccp_defaultNameCode="PK"
+                        app:ccp_showFlag="true"
+                        app:ccp_showNameCode="false"
+                        app:ccp_textSize="@dimen/_12ssp"
+                        app:ccp_useFlagEmoji="true" />
+
+                    <View
+                        android:layout_width="@dimen/_1sdp"
+                        android:layout_height="match_parent"
+                        android:layout_marginVertical="@dimen/_8sdp"
+                        android:background="#4B68FF" />
+
+                    <EditText
+                        android:id="@+id/edtContactNumber"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:autofillHints=""
+                        android:background="@null"
+                        android:hint="@null"
+                        android:includeFontPadding="false"
+                        android:inputType="number"
+                        android:maxLength="10"
+                        android:padding="@dimen/_8sdp"
+                        android:textColor="@color/text_color"
+                        android:textColorHint="@color/b2"
+                        android:textCursorDrawable="@drawable/edt_cursor"
+                        tools:ignore="TextFields" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:id="@+id/tvContactPhoneNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:fontFamily="@font/redx_pro"
+                android:includeFontPadding="false"
+                android:text="@string/phoneNumber"
+                android:textColor="@color/text_color"
+                android:textSize="14sp" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                app:cardCornerRadius="12dp"
+                app:strokeColor="@color/b4"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <com.hbb20.CountryCodePicker
+                        android:id="@+id/ccContactPhoneNumber"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="@dimen/_4sdp"
+                        android:layout_marginStart="@dimen/_4sdp"
+                        app:ccp_arrowSize="@dimen/_1sdp"
+                        app:ccp_contentColor="@color/text_color"
+                        app:ccp_defaultNameCode="PK"
+                        app:ccp_showFlag="true"
+                        app:ccp_showNameCode="false"
+                        app:ccp_textSize="@dimen/_12ssp"
+                        app:ccp_useFlagEmoji="true"
+                        tools:ignore="TooManyViews" />
+
+                    <View
+                        android:layout_width="@dimen/_1sdp"
+                        android:layout_height="match_parent"
+                        android:layout_marginVertical="@dimen/_8sdp"
+                        android:background="#4B68FF" />
+
+                    <EditText
+                        android:id="@+id/edtContactPhoneNumber"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:autofillHints=""
+                        android:background="@null"
+                        android:hint="@null"
+                        android:includeFontPadding="false"
+                        android:inputType="number"
+                        android:maxLength="10"
+                        android:padding="@dimen/_8sdp"
+                        android:textColor="@color/text_color"
+                        android:textColorHint="@color/b2"
+                        android:textCursorDrawable="@drawable/edt_cursor"
+                        tools:ignore="TextFields" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:id="@+id/tvContactEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:fontFamily="@font/redx_pro"
+                android:includeFontPadding="false"
+                android:text="@string/emailAddress"
+                android:textColor="@color/text_color"
+                android:textSize="14sp" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                app:cardCornerRadius="12dp"
+                app:strokeColor="@color/b4"
+                app:strokeWidth="1dp">
+
+                <EditText
+                    android:id="@+id/edtContactEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:autofillHints=""
+                    android:background="@null"
+                    android:includeFontPadding="false"
+                    android:inputType="textEmailAddress"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="16dp"
+                    android:textColor="@color/text_color"
+                    android:textColorHint="@color/b2"
+                    android:textCursorDrawable="@drawable/edt_cursor"
+                    android:textSize="14sp" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tvEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:fontFamily="@font/redx_pro"
+                android:includeFontPadding="false"
+                android:text="@string/email"
+                android:textColor="@color/text_color"
+                android:textSize="14sp" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                app:cardCornerRadius="12dp"
+                app:strokeColor="@color/b4"
+                app:strokeWidth="1dp">
+
+                <EditText
+                    android:id="@+id/edtEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@id/ivSearchIcon"
+                    android:autofillHints=""
+                    android:background="@null"
+                    android:includeFontPadding="false"
+                    android:inputType="textEmailAddress"
+                    android:maxEms="3"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="16dp"
+                    android:textColor="@color/text_color"
+                    android:textColorHint="@color/b2"
+                    android:textCursorDrawable="@drawable/edt_cursor"
+                    android:textSize="14sp" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:id="@+id/tvSubject"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:fontFamily="@font/redx_pro"
+                android:includeFontPadding="false"
+                android:text="@string/suject"
+                android:textColor="@color/text_color"
+                android:textSize="14sp" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                app:cardCornerRadius="12dp"
+                app:strokeColor="@color/b4"
+                app:strokeWidth="1dp">
+
+                <EditText
+                    android:id="@+id/edtSubject"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@id/ivSearchIcon"
+                    android:autofillHints=""
+                    android:background="@null"
+                    android:includeFontPadding="false"
+                    android:inputType="text"
+                    android:maxEms="3"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="16dp"
+                    android:textColor="@color/text_color"
+                    android:textColorHint="@color/b2"
+                    android:textCursorDrawable="@drawable/edt_cursor"
+                    android:textSize="14sp" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:id="@+id/tvContent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:fontFamily="@font/redx_pro"
+                android:includeFontPadding="false"
+                android:text="@string/content"
+                android:textColor="@color/text_color"
+                android:textSize="14sp" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                app:cardCornerRadius="12dp"
+                app:strokeColor="@color/b4"
+                app:strokeWidth="1dp">
+
+                <EditText
+                    android:id="@+id/edtContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/_6sdp"
+                    android:layout_marginVertical="@dimen/_6sdp"
+                    android:autofillHints=""
+                    android:background="@null"
+                    android:fontFamily="@font/outfit_regular"
+                    android:gravity="top"
+                    android:inputType="text|textMultiLine"
+                    android:lines="8"
+                    android:textColorHint="@color/clr97"
+                    android:textCursorDrawable="@drawable/edt_cursor"
+                    android:textSize="12sp" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llSMS"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tvSMSPhoneNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:fontFamily="@font/redx_pro"
+                android:includeFontPadding="false"
+                android:text="@string/phoneNumber"
+                android:textColor="@color/text_color"
+                android:textSize="14sp" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                app:cardCornerRadius="12dp"
+                app:strokeColor="@color/b4"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <com.hbb20.CountryCodePicker
+                        android:id="@+id/ccSMSPhoneNumber"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="@dimen/_4sdp"
+                        android:layout_marginStart="@dimen/_4sdp"
+                        app:ccp_arrowSize="@dimen/_1sdp"
+                        app:ccp_contentColor="@color/text_color"
+                        app:ccp_defaultNameCode="PK"
+                        app:ccp_showFlag="true"
+                        app:ccp_showNameCode="false"
+                        app:ccp_textSize="@dimen/_12ssp"
+                        app:ccp_useFlagEmoji="true" />
+
+                    <View
+                        android:layout_width="@dimen/_1sdp"
+                        android:layout_height="match_parent"
+                        android:layout_marginVertical="@dimen/_8sdp"
+                        android:background="#4B68FF" />
+
+                    <EditText
+                        android:id="@+id/edtSMSPhoneNumber"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:autofillHints=""
+                        android:background="@null"
+                        android:hint="@null"
+                        android:includeFontPadding="false"
+                        android:inputType="number"
+                        android:maxLength="10"
+                        android:padding="@dimen/_8sdp"
+                        android:textColor="@color/text_color"
+                        android:textColorHint="@color/b2"
+                        android:textCursorDrawable="@drawable/edt_cursor"
+                        tools:ignore="TextFields" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:id="@+id/tvSMSTextMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:fontFamily="@font/redx_pro"
+                android:includeFontPadding="false"
+                android:text="@string/textMessage"
+                android:textColor="@color/text_color"
+                android:textSize="14sp" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                app:cardCornerRadius="12dp"
+                app:strokeColor="@color/b4"
+                app:strokeWidth="1dp">
+
+                <EditText
+                    android:id="@+id/edtTextMassage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/_6sdp"
+                    android:layout_marginVertical="@dimen/_6sdp"
+                    android:autofillHints=""
+                    android:background="@null"
+                    android:fontFamily="@font/outfit_regular"
+                    android:gravity="top"
+                    android:hint="@string/pleaseEnter"
+                    android:inputType="text|textMultiLine"
+                    android:lines="8"
+                    android:textColorHint="@color/clr97"
+                    android:textCursorDrawable="@drawable/edt_cursor"
+                    android:textSize="12sp" />
+
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llMyCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tvMyCardName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:fontFamily="@font/redx_pro"
+                android:includeFontPadding="false"
+                android:text="@string/myName"
+                android:textColor="@color/text_color"
+                android:textSize="14sp" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                app:cardCornerRadius="12dp"
+                app:strokeColor="@color/b4"
+                app:strokeWidth="1dp">
+
+                <EditText
+                    android:id="@+id/edtMyCardName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@id/ivSearchIcon"
+                    android:autofillHints=""
+                    android:background="@null"
+                    android:includeFontPadding="false"
+                    android:inputType="text"
+                    android:maxEms="3"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="16dp"
+                    android:textColor="@color/text_color"
+                    android:textColorHint="@color/b2"
+                    android:textCursorDrawable="@drawable/edt_cursor"
+                    android:textSize="14sp" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:id="@+id/tvMyCardEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:fontFamily="@font/redx_pro"
+                android:includeFontPadding="false"
+                android:text="@string/email"
+                android:textColor="@color/text_color"
+                android:textSize="14sp" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                app:cardCornerRadius="12dp"
+                app:strokeColor="@color/b4"
+                app:strokeWidth="1dp">
+
+                <EditText
+                    android:id="@+id/edtMyCardEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@id/ivSearchIcon"
+                    android:autofillHints=""
+                    android:background="@null"
+                    android:includeFontPadding="false"
+                    android:inputType="textEmailAddress"
+                    android:maxEms="3"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="16dp"
+                    android:textColor="@color/text_color"
+                    android:textColorHint="@color/b2"
+                    android:textCursorDrawable="@drawable/edt_cursor"
+                    android:textSize="14sp" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:id="@+id/tvMyCardPhoneNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:fontFamily="@font/redx_pro"
+                android:includeFontPadding="false"
+                android:text="@string/phoneNumber"
+                android:textColor="@color/text_color"
+                android:textSize="14sp" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                app:cardCornerRadius="12dp"
+                app:strokeColor="@color/b4"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <com.hbb20.CountryCodePicker
+                        android:id="@+id/ccMyCardPhoneNumber"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="@dimen/_4sdp"
+                        android:layout_marginStart="@dimen/_4sdp"
+                        app:ccp_arrowSize="@dimen/_1sdp"
+                        app:ccp_contentColor="@color/text_color"
+                        app:ccp_defaultNameCode="PK"
+                        app:ccp_showFlag="true"
+                        app:ccp_showNameCode="false"
+                        app:ccp_textSize="@dimen/_12ssp"
+                        app:ccp_useFlagEmoji="true" />
+
+                    <View
+                        android:layout_width="@dimen/_1sdp"
+                        android:layout_height="match_parent"
+                        android:layout_marginVertical="@dimen/_8sdp"
+                        android:background="#4B68FF" />
+
+                    <EditText
+                        android:id="@+id/edtMyCardPhoneNumber"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:autofillHints=""
+                        android:background="@null"
+                        android:hint="@null"
+                        android:includeFontPadding="false"
+                        android:inputType="number"
+                        android:maxLength="10"
+                        android:padding="@dimen/_8sdp"
+                        android:textColor="@color/text_color"
+                        android:textColorHint="@color/b2"
+                        android:textCursorDrawable="@drawable/edt_cursor"
+                        tools:ignore="TextFields" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:id="@+id/tvMyCardAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:fontFamily="@font/redx_pro"
+                android:includeFontPadding="false"
+                android:text="@string/address"
+                android:textColor="@color/text_color"
+                android:textSize="14sp" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                app:cardCornerRadius="12dp"
+                app:strokeColor="@color/b4"
+                app:strokeWidth="1dp">
+
+                <EditText
+                    android:id="@+id/edtMyCardAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@id/ivSearchIcon"
+                    android:autofillHints=""
+                    android:background="@null"
+                    android:includeFontPadding="false"
+                    android:inputType="text"
+                    android:maxEms="3"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="16dp"
+                    android:textColor="@color/text_color"
+                    android:textColorHint="@color/b2"
+                    android:textCursorDrawable="@drawable/edt_cursor"
+                    android:textSize="14sp" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:id="@+id/tvMyCardNote"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:fontFamily="@font/redx_pro"
+                android:includeFontPadding="false"
+                android:text="@string/note"
+                android:textColor="@color/text_color"
+                android:textSize="14sp" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                app:cardCornerRadius="12dp"
+                app:strokeColor="@color/b4"
+                app:strokeWidth="1dp">
+
+                <EditText
+                    android:id="@+id/edtMyCardNote"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/_6sdp"
+                    android:layout_marginVertical="@dimen/_6sdp"
+                    android:autofillHints=""
+                    android:background="@null"
+                    android:fontFamily="@font/outfit_regular"
+                    android:gravity="top"
+                    android:hint="@string/pleaseEnter"
+                    android:inputType="text|textMultiLine"
+                    android:lines="8"
+                    android:textColorHint="@color/clr97"
+                    android:textCursorDrawable="@drawable/edt_cursor"
+                    android:textSize="12sp" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llCalendar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <TextView
+                android:id="@+id/tvCalendarTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:fontFamily="@font/redx_pro"
+                android:includeFontPadding="false"
+                android:text="@string/title"
+                android:textColor="@color/text_color"
+                android:textSize="14sp" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                app:cardCornerRadius="12dp"
+                app:strokeColor="@color/b4"
+                app:strokeWidth="1dp">
+
+                <EditText
+                    android:id="@+id/edtCalendarTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@id/ivSearchIcon"
+                    android:autofillHints=""
+                    android:background="@null"
+                    android:includeFontPadding="false"
+                    android:inputType="text"
+                    android:maxEms="3"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="16dp"
+                    android:textColor="@color/text_color"
+                    android:textColorHint="@color/b2"
+                    android:textCursorDrawable="@drawable/edt_cursor"
+                    android:textSize="14sp" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:id="@+id/tvCalendarLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:fontFamily="@font/redx_pro"
+                android:includeFontPadding="false"
+                android:text="@string/location"
+                android:textColor="@color/text_color"
+                android:textSize="14sp" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                app:cardCornerRadius="12dp"
+                app:strokeColor="@color/b4"
+                app:strokeWidth="1dp">
+
+                <EditText
+                    android:id="@+id/edtCalendarLocation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@id/ivSearchIcon"
+                    android:autofillHints=""
+                    android:background="@null"
+                    android:includeFontPadding="false"
+                    android:inputType="text"
+                    android:maxEms="3"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="16dp"
+                    android:textColor="@color/text_color"
+                    android:textColorHint="@color/b2"
+                    android:textCursorDrawable="@drawable/edt_cursor"
+                    android:textSize="14sp" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:id="@+id/tvCalendarStart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:fontFamily="@font/redx_pro"
+                android:includeFontPadding="false"
+                android:text="@string/start"
+                android:textColor="@color/text_color"
+                android:textSize="14sp" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/mcvStartDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                app:cardCornerRadius="12dp"
+                app:strokeColor="@color/b4"
+                app:strokeWidth="1dp">
+
+                <TextView
+                    android:id="@+id/tvStartDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginVertical="16dp"
+                    android:fontFamily="@font/redx_pro"
+                    android:includeFontPadding="false"
+                    android:textColor="@color/text_color"
+                    android:textSize="14sp" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:id="@+id/tvCalendarEnd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:fontFamily="@font/redx_pro"
+                android:includeFontPadding="false"
+                android:text="@string/end"
+                android:textColor="@color/text_color"
+                android:textSize="14sp" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/mcvEndDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                app:cardCornerRadius="12dp"
+                app:strokeColor="@color/b4"
+                app:strokeWidth="1dp">
+
+                <TextView
+                    android:id="@+id/tvEndDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginVertical="16dp"
+                    android:fontFamily="@font/redx_pro"
+                    android:includeFontPadding="false"
+                    android:textColor="@color/text_color"
+                    android:textSize="14sp" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:id="@+id/tvCalendarDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:fontFamily="@font/redx_pro"
+                android:includeFontPadding="false"
+                android:text="@string/description"
+                android:textColor="@color/text_color"
+                android:textSize="14sp" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                app:cardCornerRadius="12dp"
+                app:strokeColor="@color/b4"
+                app:strokeWidth="1dp">
+
+                <EditText
+                    android:id="@+id/edtCalendarDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/_6sdp"
+                    android:layout_marginVertical="@dimen/_6sdp"
+                    android:autofillHints=""
+                    android:background="@null"
+                    android:fontFamily="@font/outfit_regular"
+                    android:gravity="top"
+                    android:hint="@string/pleaseEnter"
+                    android:inputType="text|textMultiLine"
+                    android:lines="8"
+                    android:textColorHint="@color/clr97"
+                    android:textCursorDrawable="@drawable/edt_cursor"
+                    android:textSize="12sp" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llSpotify"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tvArtistName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:fontFamily="@font/redx_pro"
+                android:includeFontPadding="false"
+                android:text="@string/artisName"
+                android:textColor="@color/text_color"
+                android:textSize="14sp" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                app:cardCornerRadius="12dp"
+                app:strokeColor="@color/b4"
+                app:strokeWidth="1dp">
+
+                <EditText
+                    android:id="@+id/edtArtistName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@id/ivSearchIcon"
+                    android:autofillHints=""
+                    android:background="@null"
+                    android:includeFontPadding="false"
+                    android:inputType="text"
+                    android:maxEms="3"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="16dp"
+                    android:textColor="@color/text_color"
+                    android:textColorHint="@color/b2"
+                    android:textCursorDrawable="@drawable/edt_cursor"
+                    android:textSize="14sp" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:id="@+id/tvSongName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:fontFamily="@font/redx_pro"
+                android:includeFontPadding="false"
+                android:text="@string/songName"
+                android:textColor="@color/text_color"
+                android:textSize="14sp" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                app:cardCornerRadius="12dp"
+                app:strokeColor="@color/b4"
+                app:strokeWidth="1dp">
+
+                <EditText
+                    android:id="@+id/edtSongName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@id/ivSearchIcon"
+                    android:autofillHints=""
+                    android:background="@null"
+                    android:includeFontPadding="false"
+                    android:inputType="text"
+                    android:maxEms="3"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="16dp"
+                    android:textColor="@color/text_color"
+                    android:textColorHint="@color/b2"
+                    android:textCursorDrawable="@drawable/edt_cursor"
+                    android:textSize="14sp" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/btnLink"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/btn_curve"
+            android:fontFamily="@font/redx_pro"
+            android:paddingVertical="12dp"
+            android:text="@string/open_link"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+</RelativeLayout>
